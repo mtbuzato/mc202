@@ -18,6 +18,24 @@ typedef struct turma {
     int qtd;
 } Turma;
 
+// Função para comparar datas
+// Retorna 1 se a > b, -1 se a < b, e 0 se a = b
+int compararDatas(Data a, Data b);
+
+// Função para comparar strings
+// Retorna 1 se a > b, -1 se a < b, e 0 se a = b (ordem alfabética)
+int compararStr(char a[], char b[], int sizeA, int sizeB);
+
+// Função para comparar alunos
+// Retorna 1 se a > b, -1 se a < b, e 0 se a = b (nascimento e depois ordem alfabética de nome e sobrenome)
+int compararAlunos(Aluno a, Aluno b);
+
+// Função para medir tamanho de strings
+int tamanho(char str[]);
+
+// Função para encontrar onde na string ocorre uma substring
+int indexOf(char str[], char search[]);
+
 // A funcao recebe todas as turma e a turma escolhida,
 // retornando o aluno mais novo da turma escolhida.
 Aluno procura_novo_na_turma(Turma t[], int qtd_turmas, int j);
