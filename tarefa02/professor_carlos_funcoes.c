@@ -1,27 +1,31 @@
 #include "professor_carlos.h"
+#include <stdio.h>
 
 int compararDatas(Data a, Data b)  {
     if(a.ano != b.ano) {
         if(a.ano > b.ano) return 1; 
-        else return -1;
+        return -1;
     }
 
     if(a.mes != b.mes) {
         if(a.mes > b.mes) return 1;
-        else return -1;
+        return -1;
     }
     
     if(a.dia != b.dia) {
         if(a.dia > b.dia) return 1;
-        else return -1;
+        return -1;
     }
 
     return 0;
 }
 
-int compararStr(char a[], char b[], int sizeA, int sizeB)  {
+int compararStr(char a[], char b[])  {
+    int sizeA = tamanho(a);
+    int sizeB = tamanho(b);
+
     int toUse = sizeB;
-    if(sizeA > sizeB) toUse = sizeA;
+    if(sizeA < sizeB) toUse = sizeA;
 
     for(int i = 0; i < toUse; i++) {
         if(a[i] > b[i]) return 1;
@@ -34,17 +38,38 @@ int compararStr(char a[], char b[], int sizeA, int sizeB)  {
     return 0;
 }
 
-int compararAlunos(Aluno a, Aluno b) {
-    int comp = compararDatas(a.nascimento, b.nascimento);
-    if(comp == 0) {;
-        comp = compararStr(a.nome, b.nome, 14, 14);
-    }
+int ordemAlfabetica(Aluno a, Aluno b) {
+    int comp = compararStr(a.nome, b.nome);
 
     if(comp == 0) {
-        comp = compararStr(a.sobrenome, b.sobrenome, 14, 14);
+        comp = compararStr(a.sobrenome, b.sobrenome);
     }
 
     return comp;
+}
+
+int maisNovo(Aluno a, Aluno b) {
+    int comp = compararDatas(a.nascimento, b.nascimento);
+    
+    if(comp > 0) return 1;
+    if(comp < 0) return 0;
+
+    comp = ordemAlfabetica(a, b);
+
+    if(comp > 0) return 0;
+    return 1; // não tem como sobrenome e nome serem iguais
+}
+
+int maisVelho(Aluno a, Aluno b) {
+    int comp = compararDatas(a.nascimento, b.nascimento);
+    
+    if(comp < 0) return 1;
+    if(comp > 0) return 0;
+
+    comp = ordemAlfabetica(a, b);
+
+    if(comp > 0) return 0;
+    return 1; // não tem como sobrenome e nome serem iguais
 }
 
 int tamanho(char str[]) {
@@ -83,11 +108,7 @@ Aluno procura_novo_na_turma(Turma t[], int qtd_turmas, int j) {
     for(int n = 0; n < turma.qtd; n++) {
         Aluno aluno = turma.alunos[n];
 
-        if(n == 0) novo = aluno;
-        else if(compararAlunos(novo, aluno) < 0) {
-            novo = aluno;
-        }
-
+        if(n == 0 || maisNovo(aluno, novo)) novo = aluno;
     }
 
     return novo;
@@ -97,9 +118,9 @@ Aluno procura_novo_todas_turmas(Turma t[], int qtd_turmas) {
     Aluno novo;
 
     for(int i = 0; i < qtd_turmas; i++) {
-        Aluno aluno = procura_novo_na_turma(t, qtd_turmas, i);
-        if(compararAlunos(novo, aluno) < 0) {
-            novo = aluno;
+        Aluno novoTurma = procura_novo_na_turma(t, qtd_turmas, i);
+        if(i == 0 || maisNovo(novoTurma, novo)) {
+            novo = novoTurma;
         }
     }
 
@@ -113,11 +134,7 @@ Aluno procura_velho_na_turma(Turma t[], int qtd_turmas, int j) {
     for(int n = 0; n < turma.qtd; n++) {
         Aluno aluno = turma.alunos[n];
 
-        if(n == 0) velho = aluno;
-        else if(compararAlunos(velho, aluno) > 0) {
-            velho = aluno;
-        }
-
+        if(n == 0 || maisVelho(aluno, velho)) velho = aluno;
     }
 
     return velho;
@@ -127,9 +144,9 @@ Aluno procura_velho_todas_turmas(Turma t[], int qtd_turmas) {
     Aluno velho;
 
     for(int i = 0; i < qtd_turmas; i++) {
-        Aluno aluno = procura_velho_na_turma(t, qtd_turmas, i);
-        if(compararAlunos(velho, aluno) > 0) {
-            velho = aluno;
+        Aluno velhoTurma = procura_velho_na_turma(t, qtd_turmas, i);
+        if(i == 0 || maisVelho(velhoTurma, velho)) {
+            velho = velhoTurma;
         }
     }
 

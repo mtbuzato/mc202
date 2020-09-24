@@ -24,11 +24,17 @@ int compararDatas(Data a, Data b);
 
 // Função para comparar strings
 // Retorna 1 se a > b, -1 se a < b, e 0 se a = b (ordem alfabética)
-int compararStr(char a[], char b[], int sizeA, int sizeB);
+int compararStr(char a[], char b[]);
 
-// Função para comparar alunos
-// Retorna 1 se a > b, -1 se a < b, e 0 se a = b (nascimento e depois ordem alfabética de nome e sobrenome)
-int compararAlunos(Aluno a, Aluno b);
+// Função para comparar nome de alunos
+// Retorna 1 se a > b, -1 se a < b, e 0 se a = b (ordem alfabética de nome e sobrenome)
+int ordemAlfabetica(Aluno a, Aluno b);
+
+// Dados a e b, retorna o mais novo (0 = a, 1 = b)
+int maisNovo(Aluno a, Aluno b);
+
+// Dados a e b, retorna o mais velho (0 = a, 1 = b)
+int maisVelho(Aluno a, Aluno b);
 
 // Função para medir tamanho de strings
 int tamanho(char str[]);
