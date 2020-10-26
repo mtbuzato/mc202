@@ -57,13 +57,24 @@ int search(char word[], char **linhas, int n, int m, int x, int y, int **visited
 int find(char word[], char **linhas, int n, int m) {
     int x, y = 0;
 
+    int **visited = malloc(n * sizeof(int *));
+    if(visited == NULL) {
+        printf("Erro! Não há memória disponível!\n");
+        exit(0);
+    }
+
+    for(int i = 0; i < n; i++) {
+        visited[i] = malloc(m * sizeof(int));
+        if(visited[i] == NULL) {
+            printf("Erro! Não há memória disponível!\n");
+            exit(0);
+        }
+    }
+
     for(x = 0; x < m; x++) {
         for(y = 0; y < n; y++) {
             if(word[0] == linhas[y][x]) {
-                int **visited = malloc(n * sizeof(int *));
                 for(int i = 0; i < n; i++) {
-                    visited[i] = malloc(m * sizeof(int));
-
                     for(int x = 0; x < m; x++) {
                         visited[i][x] = 0;
                     }
@@ -71,17 +82,17 @@ int find(char word[], char **linhas, int n, int m) {
 
                 int searchResult = search(word, linhas, n, m, x, y, visited);
 
-                for(int i = 0; i < n; i++) {
-                    free(visited[i]);
-                }
-                free(visited);
-
                 if(searchResult) {
                     return 1;
                 }
             }
         }
     }
+
+    for(int i = 0; i < n; i++) {
+        free(visited[i]);
+    }
+    free(visited);
 
     return 0;
 }
@@ -92,8 +103,16 @@ int main() {
     scanf("%d %d %d", &n, &m, &q);
 
     char **linhas = malloc(n * sizeof(char *));
+    if(linhas == NULL) {
+        printf("Erro! Não há memória disponível!\n");
+        exit(0);
+    }
     for(i = 0; i < n; i++) {
         linhas[i] = malloc(m * sizeof(char));
+        if(linhas[i] == NULL) {
+            printf("Erro! Não há memória disponível!\n");
+            exit(0);
+        }
 
         for(x = 0; x < m; x++) {
             scanf(" %c", &linhas[i][x]);
