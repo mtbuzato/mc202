@@ -6,7 +6,9 @@ LDFLAGS = -lm
 all: calculadora
 
 calculadora: calculadora.c
-	gcc $(CFLAGS) calculadora.c -o calculadora $(LDFLAGS)
+	gcc $(CFLAGS) -c bignum.c $(LDFLAGS)
+	gcc $(CFLAGS) -c bignumops.c $(LDFLAGS)
+	gcc $(CFLAGS) calculadora.c -o calculadora bignum.o bignumops.o $(LDFLAGS)
 
 clean:
 	rm -f calculadora
