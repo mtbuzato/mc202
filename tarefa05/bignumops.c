@@ -24,9 +24,6 @@ BigNum bignumops_add(BigNum a, BigNum b) {
         res = bignum_push(res, aData + bData);
     }
 
-    bignum_destroy(a);
-    bignum_destroy(b);
-
     return res;
 }
 
@@ -80,8 +77,6 @@ BigNum bignumops_sub(BigNum a, BigNum b) {
     }
 
     bignum_destroy(first);
-    bignum_destroy(a);
-    bignum_destroy(b);
 
     return final;
 }
