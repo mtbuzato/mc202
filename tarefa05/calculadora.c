@@ -22,12 +22,18 @@ int main() {
 
         if(op == '+') {
             numRes = bignumops_add(a, b);
+            bignum_destroy(a);
+            bignum_destroy(b);
         } else if (op == '-') {
             numRes = bignumops_sub(a, b);
+            bignum_destroy(a);
+            bignum_destroy(b);
         } else if(op == '*') {
             numRes = bignumops_mul(a, b);
         } else {
-            return 0;
+            bignum_destroy(a);
+            bignum_destroy(b);
+            continue;
         }
 
         char res[50] = "";
