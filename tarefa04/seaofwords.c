@@ -83,6 +83,11 @@ int find(char word[], char **linhas, int n, int m) {
                 int searchResult = search(word, linhas, n, m, x, y, visited);
 
                 if(searchResult) {
+                    for(int i = 0; i < n; i++) {
+                        free(visited[i]);
+                    }
+                    free(visited);
+                    
                     return 1;
                 }
             }
